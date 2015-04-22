@@ -61,9 +61,9 @@ $(function() {
          * the CSS to determine how we're performing the
          * hiding/showing of the menu element.
          */
-         // it('is hidden by default', function() {
-         //    expect($('body').transform).toBe(translate3d(-12em, 0, 0));
-         // });
+         it('is hidden by default', function() {
+            expect($('body')[0].className).toBe('menu-hidden');
+         });
 
 
          /* TODO: Write a test that ensures the menu changes
