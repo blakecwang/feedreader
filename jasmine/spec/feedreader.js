@@ -125,19 +125,17 @@ $(function() {
         var before, after;
 
 
-        before = $('.feed').children().length;
-        loadFeed(0, function() {
-            after = $('.feed').children().length;
-        });
-
-
         beforeEach(function(done) {
-            done();
+            before = $('.feed').children()[0].innerText;
+            loadFeed(1, function() {
+                after = $('.feed').children()[0].innerText;
+                done();
+            });
         });
         
 
         it('should change when when loadFeed is run', function(done) {
-            expect(before).not.toEqual(after);
+            expect(before).not.toBe(after);
             done();
         });
     });
