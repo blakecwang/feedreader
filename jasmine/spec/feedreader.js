@@ -122,21 +122,24 @@ $(function() {
          * by the loadFeed function that the content actually changes.
          * Remember, loadFeed() is asynchronous.
          */
-        var before, after;
-
-
-        beforeEach(function(done) {
-            before = $('.feed').children()[0].innerText;
-            loadFeed(1, function() {
-                after = $('.feed').children()[0].innerText;
+        beforeEach(function(done) {            
+            loadFeed(0, function() {
                 done();
             });
         });
         
 
-        it('should change when when loadFeed is run', function(done) {
+        it('should change when when loadFeed is run', function() {
+            var before, after;
+
+
+            before = $('.feed').children()[0].innerText;
+            loadFeed(1, function() {
+                after = $('.feed').children()[0].innerText;
+            });
+
+
             expect(before).not.toBe(after);
-            done();
         });
     });
 }());
