@@ -36,10 +36,10 @@ $(function() {
          * and that the URL is not empty.
          */
         it('have non-empty url property', function() {
-            for (var i = 0; i < allFeeds.length; i++) {
-                expect(allFeeds[i].url).toBeDefined();
-                expect(allFeeds[i].url.length).not.toBe(0);
-            }
+            allFeeds.forEach(function(feed) {
+                expect(feed.url).toBeDefined();
+                expect(feed.url.length).not.toBe(0);
+            });
         });
 
 
@@ -48,10 +48,10 @@ $(function() {
          * and that the name is not empty.
          */
          it('have non-empty name property', function() {
-            for (var i = 0; i < allFeeds.length; i++) {
-                expect(allFeeds[i].name).toBeDefined();
-                expect(allFeeds[i].name.length).not.toBe(0);
-            }
+            allFeeds.forEach(function(feed) {
+                expect(feed.name).toBeDefined();
+                expect(feed.name.length).not.toBe(0);
+            });
          });
     });
 
@@ -65,8 +65,12 @@ $(function() {
          * the CSS to determine how we're performing the
          * hiding/showing of the menu element.
          */
+        var body = $('body');
+        var icon = $('.menu-icon-link');
+
+
         it('is hidden by default', function() {
-            expect($('body')[0].className).toBe('menu-hidden');
+            expect(body.hasClass('menu-hidden')).toBeTruthy();
         });
 
 
@@ -76,14 +80,14 @@ $(function() {
           * clicked and does it hide when clicked again.
           */
         it('appears on click', function() {
-            $('.menu-icon-link').trigger('click');
-            expect($('body')[0].className.length).toBe(0);
+            icon.trigger('click');
+            expect(body.hasClass('menu-hidden')).toBeFalsy();
         });
 
 
         it('hides on click', function() {
-            $('.menu-icon-link').trigger('click');
-            expect($('body')[0].className).toBe('menu-hidden');
+            icon.trigger('click');
+            expect(body.hasClass('menu-hidden')).toBeTruthy();
         });
     });
 
@@ -100,9 +104,7 @@ $(function() {
          * the use of Jasmine's beforeEach and asynchronous done() function.
          */
         beforeEach(function(done) {
-            loadFeed(0, function() {
-                done();
-            });
+            loadFeed(0, done);
         });
 
 
@@ -122,24 +124,28 @@ $(function() {
          * by the loadFeed function that the content actually changes.
          * Remember, loadFeed() is asynchronous.
          */
+        
+        var before, after;
+
+        beforeAll(function(done) {
+            loadFeed(0);
+            before = $('.feed').children()[0].innerText;
+            done();
+        });
+
         beforeEach(function(done) {            
-            loadFeed(0, function() {
-                done();
-            });
+            loadFeed(1, done);
         });
         
 
         it('should change when when loadFeed is run', function() {
-            var before, after;
-
-
-            before = $('.feed').children()[0].innerText;
-            loadFeed(1, function() {
-                after = $('.feed').children()[0].innerText;
-            });
-
+            
+            after = $('.feed').children()[0].innerText;
+            console.log(before);
+            console.log(after);
 
             expect(before).not.toBe(after);
+
         });
     });
 }());
